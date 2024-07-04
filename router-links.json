@@ -13,14 +13,11 @@
     "file": "sidebar.component.html",
     "routerLinks": [
       {
-        "parameters": "/dashboard/overview",
+        "original": "/dashboard/overview",
+        "route": "/dashboard/overview",
+        "values": [],
         "start": 344,
         "end": 363
-      },
-      {
-        "parameters": "item.routerLink",
-        "start": 911,
-        "end": 926
       }
     ],
     "routerOutlets": []
@@ -39,7 +36,11 @@
     "file": "subscription-plan.component.html",
     "routerLinks": [
       {
-        "parameters": "['/signup', plan.id]",
+        "original": "['/signup', plan.id]",
+        "route": "/signup",
+        "values": [
+          "plan.id"
+        ],
         "start": 1771,
         "end": 1791
       }
@@ -50,22 +51,30 @@
     "file": "subcribed-dashboard.component.html",
     "routerLinks": [
       {
-        "parameters": "/home",
+        "original": "/home",
+        "route": "/home",
+        "values": [],
         "start": 549,
         "end": 554
       },
       {
-        "parameters": "['overview']",
+        "original": "['overview']",
+        "route": "overview",
+        "values": [],
         "start": 1008,
         "end": 1020
       },
       {
-        "parameters": "['children']",
+        "original": "['children']",
+        "route": "children",
+        "values": [],
         "start": 1670,
         "end": 1682
       },
       {
-        "parameters": "['activities']",
+        "original": "['activities']",
+        "route": "activities",
+        "values": [],
         "start": 2316,
         "end": 2330
       }
@@ -91,7 +100,9 @@
     "file": "not-found.component.html",
     "routerLinks": [
       {
-        "parameters": "/",
+        "original": "/",
+        "route": "/",
+        "values": [],
         "start": 475,
         "end": 476
       }
@@ -102,7 +113,9 @@
     "file": "signup.component.html",
     "routerLinks": [
       {
-        "parameters": "['/login']",
+        "original": "['/login']",
+        "route": "/login",
+        "values": [],
         "start": 3205,
         "end": 3215
       }
@@ -113,12 +126,16 @@
     "file": "login.component.html",
     "routerLinks": [
       {
-        "parameters": "['/reset-password']",
+        "original": "['/reset-password']",
+        "route": "/reset-password",
+        "values": [],
         "start": 1615,
         "end": 1634
       },
       {
-        "parameters": "['/plans']",
+        "original": "['/plans']",
+        "route": "/plans",
+        "values": [],
         "start": 3011,
         "end": 3021
       }
@@ -129,27 +146,50 @@
     "file": "organizations.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/users', organization.id]",
+        "original": "['/dashboard/users', organization.id]",
+        "route": "/dashboard/users",
+        "values": [
+          "organization.id"
+        ],
         "start": 1856,
         "end": 1893
       },
       {
-        "parameters": "['/dashboard/users', organization.id, 'Provider']",
+        "original": "['/dashboard/users', organization.id, 'Provider']",
+        "route": "/dashboard/users",
+        "values": [
+          "organization.id",
+          "Provider"
+        ],
         "start": 2182,
         "end": 2231
       },
       {
-        "parameters": "['/dashboard/users', organization.id, 'Child']",
+        "original": "['/dashboard/users', organization.id, 'Child']",
+        "route": "/dashboard/users",
+        "values": [
+          "organization.id",
+          "Child"
+        ],
         "start": 2515,
         "end": 2561
       },
       {
-        "parameters": "['/dashboard/users', organization.id, 'Parent']",
+        "original": "['/dashboard/users', organization.id, 'Parent']",
+        "route": "/dashboard/users",
+        "values": [
+          "organization.id",
+          "Parent"
+        ],
         "start": 2829,
         "end": 2876
       },
       {
-        "parameters": "['/dashboard/organization', organization.id]",
+        "original": "['/dashboard/organization', organization.id]",
+        "route": "/dashboard/organization",
+        "values": [
+          "organization.id"
+        ],
         "start": 3154,
         "end": 3198
       }
@@ -160,12 +200,16 @@
     "file": "organization-users.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/invite']",
+        "original": "['/dashboard/invite']",
+        "route": "/dashboard/invite",
+        "values": [],
         "start": 1245,
         "end": 1266
       },
       {
-        "parameters": "['/dashboard/csv-invites']",
+        "original": "['/dashboard/csv-invites']",
+        "route": "/dashboard/csv-invites",
+        "values": [],
         "start": 1490,
         "end": 1516
       }
@@ -186,7 +230,9 @@
     "file": "delete-upload-request.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/admin-settings/requests']",
+        "original": "['/dashboard/admin-settings/requests']",
+        "route": "/dashboard/admin-settings/requests",
+        "values": [],
         "start": 1840,
         "end": 1878
       }
@@ -207,7 +253,11 @@
     "file": "activity-card-simple.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/activity-player', activity.id]",
+        "original": "['/dashboard/activity-player', activity.id]",
+        "route": "/dashboard/activity-player",
+        "values": [
+          "activity.id"
+        ],
         "start": 132,
         "end": 175
       }
@@ -218,7 +268,9 @@
     "file": "activity-player.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/activities']",
+        "original": "['/dashboard/activities']",
+        "route": "/dashboard/activities",
+        "values": [],
         "start": 137,
         "end": 162
       }
@@ -229,12 +281,20 @@
     "file": "activity-card.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/activity-player', activity.activity.id]",
+        "original": "['/dashboard/activity-player', activity.activity.id]",
+        "route": "/dashboard/activity-player",
+        "values": [
+          "activity.activity.id"
+        ],
         "start": 436,
         "end": 488
       },
       {
-        "parameters": "['/dashboard/admin-settings/edit-activity', activity.activity.id]",
+        "original": "['/dashboard/admin-settings/edit-activity', activity.activity.id]",
+        "route": "/dashboard/admin-settings/edit-activity",
+        "values": [
+          "activity.activity.id"
+        ],
         "start": 1425,
         "end": 1490
       }
@@ -255,7 +315,11 @@
     "file": "upload-request-statistics.component.html",
     "routerLinks": [
       {
-        "parameters": "['/optimize-svg', image.name]",
+        "original": "['/optimize-svg', image.name]",
+        "route": "/optimize-svg",
+        "values": [
+          "image.name"
+        ],
         "start": 1079,
         "end": 1108
       }
@@ -266,7 +330,11 @@
     "file": "request-response-histogram.component.html",
     "routerLinks": [
       {
-        "parameters": "['/admin-settings/responses', request.request_id]",
+        "original": "['/admin-settings/responses', request.request_id]",
+        "route": "/admin-settings/responses",
+        "values": [
+          "request.request_id"
+        ],
         "start": 802,
         "end": 851
       }
@@ -277,7 +345,11 @@
     "file": "media-sizes.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/admin-settings/delete-activity', activity.id]",
+        "original": "['/dashboard/admin-settings/delete-activity', activity.id]",
+        "route": "/dashboard/admin-settings/delete-activity",
+        "values": [
+          "activity.id"
+        ],
         "start": 1378,
         "end": 1436
       }
@@ -288,7 +360,11 @@
     "file": "upload-responses.component.html",
     "routerLinks": [
       {
-        "parameters": "[\r\n              '/dashboard/admin-settings/svg-statistics',\r\n              uploadResponse.response_id\r\n            ]",
+        "original": "[\r\n              '/dashboard/admin-settings/svg-statistics',\r\n              uploadResponse.response_id\r\n            ]",
+        "route": "/dashboard/admin-settings/svg-statistics",
+        "values": [
+          "uploadResponse.response_id"
+        ],
         "start": 5620,
         "end": 5737
       }
@@ -299,22 +375,32 @@
     "file": "upload-requests.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/admin-settings/requests-timeline']",
+        "original": "['/dashboard/admin-settings/requests-timeline']",
+        "route": "/dashboard/admin-settings/requests-timeline",
+        "values": [],
         "start": 1201,
         "end": 1248
       },
       {
-        "parameters": "['/dashboard/admin-settings/requests-response-histogram']",
+        "original": "['/dashboard/admin-settings/requests-response-histogram']",
+        "route": "/dashboard/admin-settings/requests-response-histogram",
+        "values": [],
         "start": 1500,
         "end": 1557
       },
       {
-        "parameters": "['/admin-settings/activity']",
+        "original": "['/admin-settings/activity']",
+        "route": "/admin-settings/activity",
+        "values": [],
         "start": 4472,
         "end": 4500
       },
       {
-        "parameters": "['/dashboard/admin-settings/delete-upload-request', upload.id]",
+        "original": "['/dashboard/admin-settings/delete-upload-request', upload.id]",
+        "route": "/dashboard/admin-settings/delete-upload-request",
+        "values": [
+          "upload.id"
+        ],
         "start": 4835,
         "end": 4897
       }
@@ -325,7 +411,11 @@
     "file": "upload-request-statistics.component.html",
     "routerLinks": [
       {
-        "parameters": "['/optimize-svg', image.name]",
+        "original": "['/optimize-svg', image.name]",
+        "route": "/optimize-svg",
+        "values": [
+          "image.name"
+        ],
         "start": 1079,
         "end": 1108
       }
@@ -336,7 +426,11 @@
     "file": "request-response-histogram.component.html",
     "routerLinks": [
       {
-        "parameters": "['/admin-settings/responses', request.request_id]",
+        "original": "['/admin-settings/responses', request.request_id]",
+        "route": "/admin-settings/responses",
+        "values": [
+          "request.request_id"
+        ],
         "start": 802,
         "end": 851
       }
@@ -347,7 +441,9 @@
     "file": "recently-added-activities.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/activities']",
+        "original": "['/dashboard/activities']",
+        "route": "/dashboard/activities",
+        "values": [],
         "start": 221,
         "end": 246
       }
@@ -358,7 +454,11 @@
     "file": "edit-activity.component.html",
     "routerLinks": [
       {
-        "parameters": "[\r\n      '/dashboard/admin-settings/delete-activity',\r\n      activityCreate.activity.id\r\n    ]",
+        "original": "[\r\n      '/dashboard/admin-settings/delete-activity',\r\n      activityCreate.activity.id\r\n    ]",
+        "route": "/dashboard/admin-settings/delete-activity",
+        "values": [
+          "activityCreate.activity.id"
+        ],
         "start": 646,
         "end": 740
       }
@@ -369,17 +469,27 @@
     "file": "activity-table.component.html",
     "routerLinks": [
       {
-        "parameters": "['/dashboard/admin-settings/emotions-matrix']",
+        "original": "['/dashboard/admin-settings/emotions-matrix']",
+        "route": "/dashboard/admin-settings/emotions-matrix",
+        "values": [],
         "start": 1936,
         "end": 1981
       },
       {
-        "parameters": "['/dashboard/admin-settings/edit-activity', rowData.activity.id]",
+        "original": "['/dashboard/admin-settings/edit-activity', rowData.activity.id]",
+        "route": "/dashboard/admin-settings/edit-activity",
+        "values": [
+          "rowData.activity.id"
+        ],
         "start": 4138,
         "end": 4202
       },
       {
-        "parameters": "['/dashboard/admin-settings/delete-activity', rowData.activity.id]",
+        "original": "['/dashboard/admin-settings/delete-activity', rowData.activity.id]",
+        "route": "/dashboard/admin-settings/delete-activity",
+        "values": [
+          "rowData.activity.id"
+        ],
         "start": 4416,
         "end": 4482
       }

@@ -1,12 +1,8 @@
 import {
   HtmlParser,
   ParseTreeResult,
-  ParsedTemplate,
   RecursiveVisitor,
-  parseTemplate,
-  Text as Text_2,
   Element as Element_2,
-  Block,
   visitAll,
 } from "@angular/compiler";
 import { readFile } from "node:fs/promises";
@@ -15,7 +11,9 @@ import * as path from "path";
 import * as fs from "fs";
 
 export interface RouterLinkInstance {
-  parameters: string;
+  route: string;
+  original: string;
+  values: string[];
   start: number;
   end: number;
 }
@@ -31,6 +29,11 @@ export interface RouterLinkInstancesByFile {
   routerOutlets: RouterOutletInstance[];
 }
 
+export interface RouterLinkConstants {
+  link: string;
+  constant: string;
+}
+
 class RouterLinkCollector extends RecursiveVisitor {
   routerLinks: RouterLinkInstance[] = [];
   routerOutlets: RouterOutletInstance[] = [];
@@ -41,11 +44,26 @@ class RouterLinkCollector extends RecursiveVisitor {
     if (element.attrs.length > 0) {
       for (const attr of element.attrs) {
         if (attr.name === "[routerLink]" || attr.name === "routerLink") {
-          this.routerLinks.push({
-            parameters: attr.value,
-            start: attr.valueSpan.start.offset,
-            end: attr.valueSpan.end.offset,
-          });
+          const splitted = attr.value.split(",");
+          if (splitted.length > 0 && !splitted[0].includes(".routerLink")) {
+            const values = [];
+            let route = "";
+            splitted.forEach((x, i) => {
+              const shaved = x.replace(/[\[\]\s']/g, "").replace("]", "");
+              if (i === 0) {
+                route = shaved;
+              } else {
+                values.push(shaved);
+              }
+            });
+            this.routerLinks.push({
+              original: attr.value,
+              route: route,
+              values: values,
+              start: attr.valueSpan.start.offset,
+              end: attr.valueSpan.end.offset,
+            });
+          }
         }
       }
     }
@@ -114,14 +132,6 @@ const parseRouterLinks = async (filePath: string) => {
   console.log("RouterLinks", totalRouterLinks);
   console.log("RouterOutlets", totalRouterOutlets);
 
-  const outlets = routerLinksOrOutlets.filter(
-    (x) => x.routerOutlets.length > 0
-  );
-  console.log("RouterOutlets are in...");
-  for (const outlet of outlets) {
-    console.log(outlet);
-  }
-
   const jsonRouterLinks = JSON.stringify(routerLinksOrOutlets, null, 2);
   try {
     const filePath = "router-links.json";
@@ -132,6 +142,58 @@ const parseRouterLinks = async (filePath: string) => {
     console.error("Error writing JSON RouterLinks to file:", error);
   }
 
+  const outlets = routerLinksOrOutlets.filter(
+    (x) => x.routerOutlets.length > 0
+  );
+  console.log("RouterOutlets are in...");
+  for (const outlet of outlets) {
+    console.log(outlet);
+  }
+
+  const allRouterLinks = [];
+  const routerLinksOnly = routerLinksOrOutlets.filter(
+    (x) => x.routerLinks.length > 0
+  );
+  routerLinksOnly.forEach((x) => {
+    x.routerLinks.forEach((y) => allRouterLinks.push(y.route));
+  });
+
+  console.log(allRouterLinks);
+  const uniqueLinks: string[] = allRouterLinks.filter(
+    (x, i, a) => a.indexOf(x) == i
+  );
+  console.log(uniqueLinks);
+
+  const constants: RouterLinkConstants[] = [];
+  uniqueLinks.forEach((l) => {
+    constants.push({
+      link: l,
+      constant: l === "/" ? "ROOT" : l.toUpperCase().replace(/[/-]/g, "_").replace(/[_]/, ""),
+    });
+  });
+  console.log(constants);
+  try {
+    const filePath = "route-constants.ts";
+    if (fs.existsSync(filePath)) {
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log("deleted");
+      });
+    }
+    fs.appendFileSync(filePath, "export abstract class ROUTE {\r\n");
+    const sortedConstants = constants.sort((a, b) => b.constant.localeCompare(a.constant));
+    sortedConstants.forEach((c) => {
+      fs.appendFileSync(
+        filePath,
+        `  static readonly ${c.constant} = "${c.link}";\r\n`
+      );
+    });
+    fs.appendFileSync(filePath, "};\r\n");
+  } catch (error) {
+    console.error("Error writing constants to file:", error);
+  }
   console.log("Completed");
 };
 
