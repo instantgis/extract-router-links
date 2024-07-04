@@ -1,0 +1,389 @@
+[
+  {
+    "file": "app.component.html",
+    "routerLinks": [],
+    "routerOutlets": [
+      {
+        "start": 0,
+        "end": 16
+      }
+    ]
+  },
+  {
+    "file": "sidebar.component.html",
+    "routerLinks": [
+      {
+        "parameters": "/dashboard/overview",
+        "start": 344,
+        "end": 363
+      },
+      {
+        "parameters": "item.routerLink",
+        "start": 911,
+        "end": 926
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "layout.component.html",
+    "routerLinks": [],
+    "routerOutlets": [
+      {
+        "start": 260,
+        "end": 276
+      }
+    ]
+  },
+  {
+    "file": "subscription-plan.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/signup', plan.id]",
+        "start": 1771,
+        "end": 1791
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "subcribed-dashboard.component.html",
+    "routerLinks": [
+      {
+        "parameters": "/home",
+        "start": 549,
+        "end": 554
+      },
+      {
+        "parameters": "['overview']",
+        "start": 1008,
+        "end": 1020
+      },
+      {
+        "parameters": "['children']",
+        "start": 1670,
+        "end": 1682
+      },
+      {
+        "parameters": "['activities']",
+        "start": 2316,
+        "end": 2330
+      }
+    ],
+    "routerOutlets": [
+      {
+        "start": 6699,
+        "end": 6715
+      }
+    ]
+  },
+  {
+    "file": "settings.component.html",
+    "routerLinks": [],
+    "routerOutlets": [
+      {
+        "start": 132,
+        "end": 148
+      }
+    ]
+  },
+  {
+    "file": "not-found.component.html",
+    "routerLinks": [
+      {
+        "parameters": "/",
+        "start": 475,
+        "end": 476
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "signup.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/login']",
+        "start": 3205,
+        "end": 3215
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "login.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/reset-password']",
+        "start": 1615,
+        "end": 1634
+      },
+      {
+        "parameters": "['/plans']",
+        "start": 3011,
+        "end": 3021
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "organizations.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/users', organization.id]",
+        "start": 1856,
+        "end": 1893
+      },
+      {
+        "parameters": "['/dashboard/users', organization.id, 'Provider']",
+        "start": 2182,
+        "end": 2231
+      },
+      {
+        "parameters": "['/dashboard/users', organization.id, 'Child']",
+        "start": 2515,
+        "end": 2561
+      },
+      {
+        "parameters": "['/dashboard/users', organization.id, 'Parent']",
+        "start": 2829,
+        "end": 2876
+      },
+      {
+        "parameters": "['/dashboard/organization', organization.id]",
+        "start": 3154,
+        "end": 3198
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "organization-users.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/invite']",
+        "start": 1245,
+        "end": 1266
+      },
+      {
+        "parameters": "['/dashboard/csv-invites']",
+        "start": 1490,
+        "end": 1516
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "lookup-tables.component.html",
+    "routerLinks": [],
+    "routerOutlets": [
+      {
+        "start": 63,
+        "end": 79
+      }
+    ]
+  },
+  {
+    "file": "delete-upload-request.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/admin-settings/requests']",
+        "start": 1840,
+        "end": 1878
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "admin-settings.component.html",
+    "routerLinks": [],
+    "routerOutlets": [
+      {
+        "start": 94,
+        "end": 110
+      }
+    ]
+  },
+  {
+    "file": "activity-card-simple.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/activity-player', activity.id]",
+        "start": 132,
+        "end": 175
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "activity-player.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/activities']",
+        "start": 137,
+        "end": 162
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "activity-card.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/activity-player', activity.activity.id]",
+        "start": 436,
+        "end": 488
+      },
+      {
+        "parameters": "['/dashboard/admin-settings/edit-activity', activity.activity.id]",
+        "start": 1425,
+        "end": 1490
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "visualizations.component.html",
+    "routerLinks": [],
+    "routerOutlets": [
+      {
+        "start": 63,
+        "end": 79
+      }
+    ]
+  },
+  {
+    "file": "upload-request-statistics.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/optimize-svg', image.name]",
+        "start": 1079,
+        "end": 1108
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "request-response-histogram.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/admin-settings/responses', request.request_id]",
+        "start": 802,
+        "end": 851
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "media-sizes.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/admin-settings/delete-activity', activity.id]",
+        "start": 1378,
+        "end": 1436
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "upload-responses.component.html",
+    "routerLinks": [
+      {
+        "parameters": "[\r\n              '/dashboard/admin-settings/svg-statistics',\r\n              uploadResponse.response_id\r\n            ]",
+        "start": 5620,
+        "end": 5737
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "upload-requests.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/admin-settings/requests-timeline']",
+        "start": 1201,
+        "end": 1248
+      },
+      {
+        "parameters": "['/dashboard/admin-settings/requests-response-histogram']",
+        "start": 1500,
+        "end": 1557
+      },
+      {
+        "parameters": "['/admin-settings/activity']",
+        "start": 4472,
+        "end": 4500
+      },
+      {
+        "parameters": "['/dashboard/admin-settings/delete-upload-request', upload.id]",
+        "start": 4835,
+        "end": 4897
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "upload-request-statistics.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/optimize-svg', image.name]",
+        "start": 1079,
+        "end": 1108
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "request-response-histogram.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/admin-settings/responses', request.request_id]",
+        "start": 802,
+        "end": 851
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "recently-added-activities.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/activities']",
+        "start": 221,
+        "end": 246
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "edit-activity.component.html",
+    "routerLinks": [
+      {
+        "parameters": "[\r\n      '/dashboard/admin-settings/delete-activity',\r\n      activityCreate.activity.id\r\n    ]",
+        "start": 646,
+        "end": 740
+      }
+    ],
+    "routerOutlets": []
+  },
+  {
+    "file": "activity-table.component.html",
+    "routerLinks": [
+      {
+        "parameters": "['/dashboard/admin-settings/emotions-matrix']",
+        "start": 1936,
+        "end": 1981
+      },
+      {
+        "parameters": "['/dashboard/admin-settings/edit-activity', rowData.activity.id]",
+        "start": 4138,
+        "end": 4202
+      },
+      {
+        "parameters": "['/dashboard/admin-settings/delete-activity', rowData.activity.id]",
+        "start": 4416,
+        "end": 4482
+      }
+    ],
+    "routerOutlets": []
+  }
+]
