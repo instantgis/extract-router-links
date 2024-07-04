@@ -132,24 +132,43 @@ const parseRouterLinks = async (filePath: string) => {
   console.log("RouterLinks", totalRouterLinks);
   console.log("RouterOutlets", totalRouterOutlets);
 
-  const jsonRouterLinks = JSON.stringify(routerLinksOrOutlets, null, 2);
-  try {
-    const filePath = "router-links.json";
-    console.log("Saving to", filePath);
-    fs.writeFileSync(filePath, jsonRouterLinks);
-    console.log("JSON RouterLinks saved to file successfully.");
-  } catch (error) {
-    console.error("Error writing JSON RouterLinks to file:", error);
-  }
+  writeRouterLinksToJSON(routerLinksOrOutlets);
+  writeOutlets(routerLinksOrOutlets);
+  writeRouterLinkConstants(routerLinksOrOutlets);
 
+  console.log("Completed");
+};
+
+function writeOutlets(routerLinksOrOutlets: RouterLinkInstancesByFile[]) {
   const outlets = routerLinksOrOutlets.filter(
     (x) => x.routerOutlets.length > 0
   );
-  console.log("RouterOutlets are in...");
+  const filesWithOutlets : string [] = [];
   for (const outlet of outlets) {
     console.log(outlet);
+    filesWithOutlets.push(outlet.file);
   }
+  try {
+    const filePath = "router-outlets.txt";
+    if (fs.existsSync(filePath)) {
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    }
+    filesWithOutlets.forEach((c) => {
+      fs.appendFileSync(
+        filePath,
+        `${c}\r\n`
+      );
+    });
+  } catch (error) {
+    console.error("Error writing files with outlets to file:", error);
+  }
+}
 
+function writeRouterLinkConstants(routerLinksOrOutlets: RouterLinkInstancesByFile[]) {
   const allRouterLinks = [];
   const routerLinksOnly = routerLinksOrOutlets.filter(
     (x) => x.routerLinks.length > 0
@@ -194,7 +213,20 @@ const parseRouterLinks = async (filePath: string) => {
   } catch (error) {
     console.error("Error writing constants to file:", error);
   }
-  console.log("Completed");
-};
+}
+
+function writeRouterLinksToJSON(routerLinksOrOutlets: RouterLinkInstancesByFile[]) {
+  const jsonRouterLinks = JSON.stringify(routerLinksOrOutlets, null, 2);
+  try {
+    const filePath = "router-links.json";
+    console.log("Saving to", filePath);
+    fs.writeFileSync(filePath, jsonRouterLinks);
+    console.log("JSON RouterLinks saved to file successfully.");
+  } catch (error) {
+    console.error("Error writing JSON RouterLinks to file:", error);
+  }
+}
 
 parseRouterLinks("C:/projects/here/here-platform-client/src/app/");
+
+

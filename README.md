@@ -23,3 +23,5 @@ Start up VSCode if you haven't already:
 ## Other resources:
 
 1. https://github.com/ngxtension/ngxtension-platform
+2. https://github.com/vakrilov/ng-pathfinder
+3. https://github.com/mgechev/ngast

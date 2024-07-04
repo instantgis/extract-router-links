@@ -1,0 +1,7 @@
+app.component.html
+layout.component.html
+subcribed-dashboard.component.html
+settings.component.html
+lookup-tables.component.html
+admin-settings.component.html
+visualizations.component.html
