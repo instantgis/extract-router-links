@@ -1,0 +1,369 @@
+{
+  "routerCalls": [
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\shared\\oganization-banner\\oganization-banner.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate([\"/\"])",
+          "path": "/",
+          "start": 1161,
+          "end": 1188,
+          "lineStart": 31,
+          "lineEnd": 31,
+          "arguments": [],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\features\\child-list\\child-list.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate([\"/dashboard/invite\"])",
+          "path": "/dashboard/invite",
+          "start": 1506,
+          "end": 1549,
+          "lineStart": 51,
+          "lineEnd": 51,
+          "arguments": [],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\auth\\signup-callback\\signup-callback.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.authService.authChanges(async (event, session) => {\r\n      this.subscription = data.subscription;\r\n      this.session = session;\r\n      if (this.session) {\r\n        if (this.session.user && this.session.user.aud === 'authenticated') {\r\n          const {data: profile, error} = await this.authService.getProfile(this.session.user.id);\r\n          if (error) throw error;\r\n          if (profile.plan_id) {\r\n\r\n            const {data: plan, error: planError} = await this.supabaseService.getSubscriptionPlanById(profile.plan_id);\r\n            if (planError) throw error;\r\n\r\n            if ( plan.users && plan.users > 0 && !profile.stripe_customer_id && !profile.stripe_subscription_id) {\r\n              this.router.navigate([\"/checkout\"]);\r\n            }\r\n            \r\n          } \r\n          else {\r\n            this.router.navigate([\"/\"]);\r\n          }\r\n        }\r\n        else {\r\n          this.router.navigate([\"/\"]);\r\n        }\r\n      }\r\n      else {\r\n        this.router.navigate([\"/\"]);\r\n      }\r\n    })",
+          "path": "",
+          "start": 903,
+          "end": 1916,
+          "lineStart": 25,
+          "lineEnd": 53,
+          "arguments": [],
+          "relative": true
+        },
+        {
+          "call": "this.router.navigate([\"/checkout\"])",
+          "path": "/checkout",
+          "start": 1608,
+          "end": 1643,
+          "lineStart": 38,
+          "lineEnd": 38,
+          "arguments": [],
+          "relative": false
+        },
+        {
+          "call": "this.router.navigate([\"/\"])",
+          "path": "/",
+          "start": 1719,
+          "end": 1746,
+          "lineStart": 43,
+          "lineEnd": 43,
+          "arguments": [],
+          "relative": false
+        },
+        {
+          "call": "this.router.navigate([\"/\"])",
+          "path": "/",
+          "start": 1799,
+          "end": 1826,
+          "lineStart": 47,
+          "lineEnd": 47,
+          "arguments": [],
+          "relative": false
+        },
+        {
+          "call": "this.router.navigate([\"/\"])",
+          "path": "/",
+          "start": 1871,
+          "end": 1898,
+          "lineStart": 51,
+          "lineEnd": 51,
+          "arguments": [],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\auth\\signup\\signup.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate([\"/after-signup\"])",
+          "path": "/after-signup",
+          "start": 3040,
+          "end": 3079,
+          "lineStart": 93,
+          "lineEnd": 93,
+          "arguments": [],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\auth\\signout\\signout.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate(['/login'])",
+          "path": "/login",
+          "start": 583,
+          "end": 615,
+          "lineStart": 18,
+          "lineEnd": 18,
+          "arguments": [],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\auth\\login\\login.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate(['/dashboard'], navigationExtras)",
+          "path": "/dashboard",
+          "start": 2556,
+          "end": 2610,
+          "lineStart": 55,
+          "lineEnd": 55,
+          "arguments": [
+            "navigationExtras"
+          ],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\auth\\invited\\invited.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.authService.authChanges((event, session) => {\r\n      this.subscription = data.subscription;\r\n      console.log(event);\r\n      console.log(session);\r\n      this.router.navigate([\"/change-password\"]);\r\n    })",
+          "path": "",
+          "start": 694,
+          "end": 905,
+          "lineStart": 23,
+          "lineEnd": 28,
+          "arguments": [],
+          "relative": true
+        },
+        {
+          "call": "this.router.navigate([\"/change-password\"])",
+          "path": "/change-password",
+          "start": 854,
+          "end": 896,
+          "lineStart": 27,
+          "lineEnd": 27,
+          "arguments": [],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\auth\\change-password\\change-password.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate([\"/\"])",
+          "path": "/",
+          "start": 2726,
+          "end": 2753,
+          "lineStart": 71,
+          "lineEnd": 71,
+          "arguments": [],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\admin\\delete-upload-request\\delete-upload-request.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.backendService.deleteUploadRequest( Number(this.id)).subscribe({\r\n      next: (x) => { \r\n        this.router.navigate(['/dashboard/admin-settings/requests']);\r\n      },\r\n      error: (e) => { \r\n        console.log(e);\r\n        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Failed to delete Upload Request ${this.id}` });\r\n      },\r\n      complete: () =>  { console.log('deleted')}\r\n    })",
+          "path": "",
+          "start": 2680,
+          "end": 3099,
+          "lineStart": 81,
+          "lineEnd": 90,
+          "arguments": [],
+          "relative": true
+        },
+        {
+          "call": "this.router.navigate(['/dashboard/admin-settings/requests'])",
+          "path": "/dashboard/admin-settings/requests",
+          "start": 2782,
+          "end": 2842,
+          "lineStart": 83,
+          "lineEnd": 83,
+          "arguments": [],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\admin\\upload_responses\\upload-responses\\upload-responses.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate(['dashboard/admin-settings/create-activity'])",
+          "path": "dashboard/admin-settings/create-activity",
+          "start": 3400,
+          "end": 3466,
+          "lineStart": 71,
+          "lineEnd": 71,
+          "arguments": [],
+          "relative": true
+        },
+        {
+          "call": "this.router.navigate(['dashboard/admin-settings/responses-carousel'])",
+          "path": "dashboard/admin-settings/responses-carousel",
+          "start": 3572,
+          "end": 3641,
+          "lineStart": 75,
+          "lineEnd": 75,
+          "arguments": [],
+          "relative": true
+        },
+        {
+          "call": "this.router.navigate(['dashboard/admin-settings/responses-galleria'])",
+          "path": "dashboard/admin-settings/responses-galleria",
+          "start": 3747,
+          "end": 3816,
+          "lineStart": 79,
+          "lineEnd": 79,
+          "arguments": [],
+          "relative": true
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\admin\\upload_requests\\upload-requests\\upload-requests.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate(['/dashboard/admin-settings/responses'])",
+          "path": "/dashboard/admin-settings/responses",
+          "start": 2829,
+          "end": 2890,
+          "lineStart": 57,
+          "lineEnd": 57,
+          "arguments": [],
+          "relative": false
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\admin\\pack\\create-activity-pack\\create-activity-pack.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate(['content-creation/packs'])",
+          "path": "content-creation/packs",
+          "start": 2203,
+          "end": 2251,
+          "lineStart": 48,
+          "lineEnd": 48,
+          "arguments": [],
+          "relative": true
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\admin\\activity\\edit-activity\\edit-activity.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate([\"dashboard/admin-settings/activities\"])",
+          "path": "dashboard/admin-settings/activities",
+          "start": 4060,
+          "end": 4121,
+          "lineStart": 109,
+          "lineEnd": 109,
+          "arguments": [],
+          "relative": true
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\admin\\activity\\delete-activity\\delete-activity.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.confirmationService.confirm({\r\n      header: 'Delete Activity Confirmation',\r\n      message: 'Are you sure you want to delete this Activity?',\r\n      acceptIcon: 'pi pi-check mr-2',\r\n      rejectIcon: 'pi pi-times mr-2',\r\n      rejectButtonStyleClass: 'p-button-sm',\r\n      acceptButtonStyleClass: 'p-button-outlined p-button-sm',\r\n      accept: async () => {\r\n        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: `Activity ${this.activityCard.name} deleted`, life: 3000 });\r\n        if (this.id) {\r\n          const { error } = await this.activitiesService.deleteActivity(+this.id);\r\n          if (error) throw error;\r\n          this.router.navigate([\"dashboard/admin-settings/activities\"]);\r\n        } \r\n        else {\r\n          throw `Unexpected missing activity id`;\r\n        }\r\n      },\r\n      reject: () => {\r\n        this.messageService.add({ severity: 'error', summary: 'Cancelled', detail: `Delete Activity ${this.activityCard.name} cancelled`, life: 3000 });\r\n      }\r\n    })",
+          "path": "",
+          "start": 1791,
+          "end": 2810,
+          "lineStart": 40,
+          "lineEnd": 61,
+          "arguments": [],
+          "relative": true
+        },
+        {
+          "call": "this.router.navigate([\"dashboard/admin-settings/activities\"])",
+          "path": "dashboard/admin-settings/activities",
+          "start": 2454,
+          "end": 2515,
+          "lineStart": 52,
+          "lineEnd": 52,
+          "arguments": [],
+          "relative": true
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\admin\\activity\\create-activity\\create-activity.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate([\"dashboard/admin-settings/activities\"])",
+          "path": "dashboard/admin-settings/activities",
+          "start": 5407,
+          "end": 5468,
+          "lineStart": 141,
+          "lineEnd": 141,
+          "arguments": [],
+          "relative": true
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\admin\\activity\\admin-settings\\admin-settings.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate([\"dashboard/admin-settings/activities\"])",
+          "path": "dashboard/admin-settings/activities",
+          "start": 5402,
+          "end": 5463,
+          "lineStart": 141,
+          "lineEnd": 141,
+          "arguments": [],
+          "relative": true
+        }
+      ]
+    },
+    {
+      "file": "C:\\projects\\here\\here-platform-client\\src\\app\\admin\\activity\\activity-table\\activity-table.component.ts",
+      "routerCalls": [
+        {
+          "call": "this.router.navigate([\"content-creation/create-activity-pack\"])",
+          "path": "content-creation/create-activity-pack",
+          "start": 4472,
+          "end": 4535,
+          "lineStart": 139,
+          "lineEnd": 139,
+          "arguments": [],
+          "relative": true
+        }
+      ]
+    }
+  ],
+  "uniquePaths": [
+    "/",
+    "/dashboard/invite",
+    "",
+    "/checkout",
+    "/after-signup",
+    "/login",
+    "/dashboard",
+    "/change-password",
+    "/dashboard/admin-settings/requests",
+    "dashboard/admin-settings/create-activity",
+    "dashboard/admin-settings/responses-carousel",
+    "dashboard/admin-settings/responses-galleria",
+    "/dashboard/admin-settings/responses",
+    "content-creation/packs",
+    "dashboard/admin-settings/activities",
+    "content-creation/create-activity-pack"
+  ]
+}

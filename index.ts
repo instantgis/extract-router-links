@@ -10,7 +10,15 @@ import { glob } from "glob";
 import * as path from "path";
 import * as fs from "fs";
 
-export interface RouterLinkInstance {
+import {
+  Project,
+  ScriptTarget,
+  Node,
+  CallExpression,
+  ArrayLiteralExpression,
+} from "ts-morph";
+
+export interface RouterLink {
   route: string;
   original: string;
   values: string[];
@@ -18,15 +26,20 @@ export interface RouterLinkInstance {
   end: number;
 }
 
-export interface RouterOutletInstance {
+export interface RouterOutlet {
   start: number;
   end: number;
 }
 
-export interface RouterLinkInstancesByFile {
+export interface RouterLinkByFile {
   file: string;
-  routerLinks: RouterLinkInstance[];
-  routerOutlets: RouterOutletInstance[];
+  routerLinks: RouterLink[];
+  routerOutlets: RouterOutlet[];
+}
+
+export interface RouterLinks {
+  routerLinks: RouterLinkByFile[];
+  uniquePaths: string[];
 }
 
 export interface RouterLinkConstants {
@@ -34,9 +47,30 @@ export interface RouterLinkConstants {
   constant: string;
 }
 
+export interface RouterCall {
+  call: string;
+  path: string;
+  arguments?: string[];
+  start: number;
+  end: number;
+  lineStart: number;
+  lineEnd: number;
+  relative: boolean;
+}
+
+export interface RouterCallsByFile {
+  file: string;
+  routerCalls: RouterCall[];
+}
+
+export interface RouterCalls {
+  routerCalls: RouterCallsByFile[];
+  uniquePaths: string[];
+}
+
 class RouterLinkCollector extends RecursiveVisitor {
-  routerLinks: RouterLinkInstance[] = [];
-  routerOutlets: RouterOutletInstance[] = [];
+  routerLinks: RouterLink[] = [];
+  routerOutlets: RouterOutlet[] = [];
   constructor() {
     super();
   }
@@ -77,22 +111,10 @@ class RouterLinkCollector extends RecursiveVisitor {
   }
 }
 
-const parseRouterLinks = async (filePath: string) => {
-  console.log("Globbing html files...");
-
-  const htmlFiles = await glob(filePath + "**/*.html", {
-    ignore: "node_modules/**",
-  });
-
-  console.log("html files found ", htmlFiles.length);
-
-  const routerLinksOrOutlets: RouterLinkInstancesByFile[] = [];
-
-  console.log("Parsing html files...");
-  let filesWithRouterLinks = 0;
-  let filesWithRouterOutlets = 0;
-  let totalRouterLinks = 0;
-  let totalRouterOutlets = 0;
+const extractRouterLinksFromHTMLFiles = async (filePath: string): Promise<RouterLinks> =>   {
+  const routerLinks: RouterLinks = { routerLinks: [], uniquePaths: []};
+  const htmlFiles = await glob(filePath + "**/*.html", { ignore: "node_modules/**"});
+  const routerLinksOrOutlets: RouterLinkByFile[] = [];
   for (const htmlFile of htmlFiles) {
     const template = await readFile(htmlFile, { encoding: "utf8" });
     const parsedTemplate: ParseTreeResult = new HtmlParser().parse(
@@ -101,8 +123,6 @@ const parseRouterLinks = async (filePath: string) => {
       { preserveLineEndings: true, tokenizeBlocks: false }
     );
     if (parsedTemplate.errors.length > 0) {
-      console.log("html file has parse errors", htmlFile);
-
       parsedTemplate.errors.forEach((e) => {
         console.log(e);
       });
@@ -116,59 +136,9 @@ const parseRouterLinks = async (filePath: string) => {
         routerLinks: visitor.routerLinks,
         routerOutlets: visitor.routerOutlets,
       });
-      if (visitor.routerLinks.length > 0) {
-        filesWithRouterLinks++;
-        totalRouterLinks += visitor.routerLinks.length;
-      }
-      if (visitor.routerOutlets.length > 0) {
-        filesWithRouterOutlets++;
-        totalRouterOutlets += visitor.routerOutlets.length;
-      }
     }
   }
-  console.log("Parsing html files done");
-  console.log("Files with router links", filesWithRouterLinks);
-  console.log("Files with router outlets", totalRouterOutlets);
-  console.log("RouterLinks", totalRouterLinks);
-  console.log("RouterOutlets", totalRouterOutlets);
-
-  writeRouterLinksToJSON(routerLinksOrOutlets);
-  writeOutlets(routerLinksOrOutlets);
-  writeRouterLinkConstants(routerLinksOrOutlets);
-
-  console.log("Completed");
-};
-
-function writeOutlets(routerLinksOrOutlets: RouterLinkInstancesByFile[]) {
-  const outlets = routerLinksOrOutlets.filter(
-    (x) => x.routerOutlets.length > 0
-  );
-  const filesWithOutlets : string [] = [];
-  for (const outlet of outlets) {
-    console.log(outlet);
-    filesWithOutlets.push(outlet.file);
-  }
-  try {
-    const filePath = "router-outlets.txt";
-    if (fs.existsSync(filePath)) {
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-    }
-    filesWithOutlets.forEach((c) => {
-      fs.appendFileSync(
-        filePath,
-        `${c}\r\n`
-      );
-    });
-  } catch (error) {
-    console.error("Error writing files with outlets to file:", error);
-  }
-}
-
-function writeRouterLinkConstants(routerLinksOrOutlets: RouterLinkInstancesByFile[]) {
+  routerLinks.routerLinks = routerLinksOrOutlets;
   const allRouterLinks = [];
   const routerLinksOnly = routerLinksOrOutlets.filter(
     (x) => x.routerLinks.length > 0
@@ -176,21 +146,40 @@ function writeRouterLinkConstants(routerLinksOrOutlets: RouterLinkInstancesByFil
   routerLinksOnly.forEach((x) => {
     x.routerLinks.forEach((y) => allRouterLinks.push(y.route));
   });
-
-  console.log(allRouterLinks);
   const uniqueLinks: string[] = allRouterLinks.filter(
     (x, i, a) => a.indexOf(x) == i
   );
-  console.log(uniqueLinks);
+  routerLinks.uniquePaths = uniqueLinks;
 
+  writeToJSONFile("router-links.json", routerLinks);
+  writeOutlets(routerLinksOrOutlets);
+  return routerLinks;
+};
+
+function writeOutlets(routerLinksOrOutlets: RouterLinkByFile[]) {
+  const outlets = routerLinksOrOutlets.filter(
+    (x) => x.routerOutlets.length > 0
+  );
+  const filesWithOutlets: string[] = [];
+  for (const outlet of outlets) {
+    filesWithOutlets.push(outlet.file);
+  }
+  writeToJSONFile("router-outlets.json", filesWithOutlets);
+}
+
+function writeRouterLinkConstants( uniqueLinks: string[]) {
   const constants: RouterLinkConstants[] = [];
   uniqueLinks.forEach((l) => {
-    constants.push({
-      link: l,
-      constant: l === "/" ? "ROOT" : l.toUpperCase().replace(/[/-]/g, "_").replace(/[_]/, ""),
-    });
+    if (l != "") {
+      constants.push({
+        link: l,
+        constant:
+          l === "/"
+            ? "ROOT"
+            : l.toUpperCase().replace(/[/-]/g, "_").replace(/[_]/, ""),
+      });
+    }
   });
-  console.log(constants);
   try {
     const filePath = "route-constants.ts";
     if (fs.existsSync(filePath)) {
@@ -198,11 +187,12 @@ function writeRouterLinkConstants(routerLinksOrOutlets: RouterLinkInstancesByFil
         if (err) {
           console.log(err);
         }
-        console.log("deleted");
       });
     }
     fs.appendFileSync(filePath, "export abstract class ROUTE {\r\n");
-    const sortedConstants = constants.sort((a, b) => b.constant.localeCompare(a.constant));
+    const sortedConstants = constants.sort((a, b) =>
+      b.constant.localeCompare(a.constant)
+    );
     sortedConstants.forEach((c) => {
       fs.appendFileSync(
         filePath,
@@ -215,18 +205,99 @@ function writeRouterLinkConstants(routerLinksOrOutlets: RouterLinkInstancesByFil
   }
 }
 
-function writeRouterLinksToJSON(routerLinksOrOutlets: RouterLinkInstancesByFile[]) {
-  const jsonRouterLinks = JSON.stringify(routerLinksOrOutlets, null, 2);
+function writeToJSONFile( file: string,
+  json: any
+) {
+  const jsonRouterLinks = JSON.stringify(json, null, 2);
   try {
-    const filePath = "router-links.json";
-    console.log("Saving to", filePath);
-    fs.writeFileSync(filePath, jsonRouterLinks);
-    console.log("JSON RouterLinks saved to file successfully.");
+    fs.writeFileSync(file, jsonRouterLinks);
   } catch (error) {
-    console.error("Error writing JSON RouterLinks to file:", error);
+    console.error("Error writing JSON  file:", error);
   }
 }
 
-parseRouterLinks("C:/projects/here/here-platform-client/src/app/");
+const extractRouterNavigateCallsFromTypeScriptFile = (filePath: string, callsByFile: RouterCallsByFile[]) => {
+  const project = new Project({
+    skipAddingFilesFromTsConfig: true,
+    skipFileDependencyResolution: true,
+    compilerOptions: {
+      target: ScriptTarget.ESNext,
+    },
+  });
+  const sourceFile = project.addSourceFileAtPath(filePath);
+  const callsForThisFile: RouterCallsByFile = { file: filePath, routerCalls: []};
+  sourceFile.getClasses().forEach((c) => {
+    c.forEachDescendant((node) => {
+      if (Node.isCallExpression(node)) {
+        const code = node.getText();
+        if (code.includes(".navigate")) {
+          let routerCall: RouterCall = {
+            call: node.getText(),
+            path: "",
+            start: node.getStart(),
+            end: node.getEnd(),
+            lineStart: node.getStartLineNumber(),
+            lineEnd: node.getEndLineNumber(),
+            arguments: [],
+            relative: true
+          };
+          const callee = node as CallExpression;
+          const args = callee.getArguments();
+          args.forEach((a) => {
+            if (Node.isArrayLiteralExpression(a)) {
+              const elements = (a as ArrayLiteralExpression).getElements();
+              elements.forEach((e, i) => {
+                if (i === 0) {
+                  routerCall.path = e.getText().replace(/[\\"']/g, '');
+                  routerCall.relative = !routerCall.path.startsWith('/');
+                } else {
+                  routerCall.arguments.push(e.getText());
+                }
+              });
+            }
+            if (Node.isIdentifier(a)) {
+              routerCall.arguments.push(a.getText());
+            }
+          });
+          callsForThisFile.routerCalls.push(routerCall);
+        }
+      }
+    });
+  });
+  if (callsForThisFile.routerCalls.length > 0) {
+    callsByFile.push(callsForThisFile);
+  }
+};
+
+const extractRouterNavigateCallsFromTypeScriptFiles = async (filePath: string): Promise<RouterCalls> => {
+  const tsFiles = await glob(filePath + "**/*.ts", { ignore: "node_modules/**"});
+  const routerCallsByFile: RouterCallsByFile[] = [];
+  for (const tsFile of tsFiles) {
+    extractRouterNavigateCallsFromTypeScriptFile( tsFile, routerCallsByFile);
+  }
+  const allPaths = [];
+  routerCallsByFile.forEach((x) => {
+    x.routerCalls.forEach((y) => allPaths.push(y.path));
+  });
+  const uniquePaths: string[] = allPaths.filter(
+    (x, i, a) => a.indexOf(x) == i
+  );
+  const routerCalls: RouterCalls = { routerCalls: routerCallsByFile, uniquePaths};
+  writeToJSONFile("router-calls.json", routerCalls);
+  return routerCalls;
+};
+
+const extractAll = async (filePath: string) => {
+  const routercalls = await extractRouterNavigateCallsFromTypeScriptFiles(projectRoot);
+  const routerLinks = await extractRouterLinksFromHTMLFiles(projectRoot);
+  const allPaths = routercalls.uniquePaths.concat(routerLinks.uniquePaths);
+  const uniquePaths = [...new Set(allPaths)];
+  writeRouterLinkConstants(uniquePaths);
+  console.log("Done");
+}
+
+const projectRoot = "C:/projects/here/here-platform-client/src/app/";
+extractAll(projectRoot);
+
 
 
