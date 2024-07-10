@@ -12,7 +12,7 @@ import { readFile } from "node:fs/promises";
 import { glob } from "glob";
 import * as path from "path";
 import * as fs from "fs";
-import { Project, ScriptTarget, Node, } from "ts-morph";
+import { Project, ScriptTarget, Node, SyntaxKind, } from "ts-morph";
 class RouterLinkCollector extends RecursiveVisitor {
     constructor() {
         super();
@@ -95,7 +95,7 @@ function writeOutlets(routerLinksOrOutlets) {
     const outlets = routerLinksOrOutlets.filter((x) => x.routerOutlets.length > 0);
     const filesWithOutlets = [];
     for (const outlet of outlets) {
-        filesWithOutlets.push(outlet.file);
+        filesWithOutlets.push(outlet.file.replace('.component.html', ''));
     }
     writeToJSONFile("router-outlets.json", filesWithOutlets);
 }
@@ -208,7 +208,7 @@ const extractRouterNavigateCallsFromTypeScriptFiles = (filePath) => __awaiter(vo
     writeToJSONFile("router-calls.json", routerCalls);
     return routerCalls;
 });
-const extractAll = (filePath) => __awaiter(void 0, void 0, void 0, function* () {
+const extractAll = (projectRoot) => __awaiter(void 0, void 0, void 0, function* () {
     const routercalls = yield extractRouterNavigateCallsFromTypeScriptFiles(projectRoot);
     const routerLinks = yield extractRouterLinksFromHTMLFiles(projectRoot);
     const allPaths = routercalls.uniquePaths.concat(routerLinks.uniquePaths);
@@ -216,6 +216,245 @@ const extractAll = (filePath) => __awaiter(void 0, void 0, void 0, function* () 
     writeRouterLinkConstants(uniquePaths);
     console.log("Done");
 });
-const projectRoot = "C:/projects/here/here-platform-client/src/app/";
-extractAll(projectRoot);
+function writeMermaidOutlets(outlets, filePath) {
+    outlets.forEach((o, i) => {
+        fs.appendFileSync(filePath, `  subgraph x${i} [${o}]\r\n`);
+        fs.appendFileSync(filePath, `    o${i}(router-outlet)\r\n`);
+        fs.appendFileSync(filePath, `  end\r\n`);
+    });
+}
+const extractRoutesFromTypeScriptFile = (filePath) => {
+    console.clear();
+    const project = new Project({
+        skipAddingFilesFromTsConfig: true,
+        skipFileDependencyResolution: true,
+        compilerOptions: {
+            target: ScriptTarget.ESNext,
+        },
+    });
+    const sourceFile = project.addSourceFileAtPath(filePath);
+    const routeDefinitions = [];
+    sourceFile.getVariableStatements().forEach((s) => {
+        s.getDeclarations().forEach(d => {
+            const name = d.getName();
+            //console.log(name);
+            const routeEntry = { name, routes: [] };
+            routeDefinitions.push(routeEntry);
+            const i = d.getInitializer();
+            if (i.isKind(SyntaxKind.ArrayLiteralExpression)) {
+                const ale = i.asKind(SyntaxKind.ArrayLiteralExpression);
+                extractRoutes(ale, routeEntry);
+            }
+        });
+    });
+    writeToJSONFile("routes.json", routeDefinitions);
+    console.log('see routes.json');
+};
+function extractRoutesChildren(ale, routeEntry, childRoute) {
+    ale.getElements().forEach(e => {
+        if (e.isKind(SyntaxKind.ObjectLiteralExpression)) {
+            const routeDef = { hasChildren: false, children: [], canActivate: [] };
+            const ole = e.asKind(SyntaxKind.ObjectLiteralExpression);
+            ole.getProperties().forEach(p => {
+                if (p.isKind(SyntaxKind.PropertyAssignment)) {
+                    const pa = p.asKind(SyntaxKind.PropertyAssignment);
+                    const pai = pa.getInitializer();
+                    if (pai.isKind(SyntaxKind.StringLiteral)) {
+                        extractRouteProperties(pa, pai, routeDef);
+                    }
+                    else if (pa.getName() === 'canActivate') {
+                        extractCanActivate(pa, routeDef);
+                    }
+                    else if (pai.isKind(SyntaxKind.ArrowFunction)) {
+                        extractLoadComponent(pai, routeDef);
+                    }
+                    else if (pa.getName() === 'children') {
+                        const i = pa.getInitializer();
+                        if (i.isKind(SyntaxKind.ArrayLiteralExpression)) {
+                            const ale = i.asKind(SyntaxKind.ArrayLiteralExpression);
+                            routeDef.hasChildren = true;
+                            extractRoutesChildren(ale, routeEntry, routeDef);
+                        }
+                    }
+                }
+            });
+            if (routeDef.path !== undefined) {
+                childRoute.children.push(routeDef);
+            }
+        }
+    });
+}
+function extractRoutes(ale, routeEntry) {
+    ale.getElements().forEach(e => {
+        if (e.isKind(SyntaxKind.ObjectLiteralExpression)) {
+            const routeDef = { hasChildren: false, children: [], canActivate: [] };
+            const ole = e.asKind(SyntaxKind.ObjectLiteralExpression);
+            ole.getProperties().forEach(p => {
+                if (p.isKind(SyntaxKind.PropertyAssignment)) {
+                    const pa = p.asKind(SyntaxKind.PropertyAssignment);
+                    const pai = pa.getInitializer();
+                    if (pai.isKind(SyntaxKind.StringLiteral)) {
+                        extractRouteProperties(pa, pai, routeDef);
+                    }
+                    else if (pai.isKind(SyntaxKind.ArrowFunction)) {
+                        extractLoadComponent(pai, routeDef);
+                    }
+                    else if (pa.getName() === 'canActivate') {
+                        extractCanActivate(pa, routeDef);
+                    }
+                    else if (pa.getName() === 'children') {
+                        const i = pa.getInitializer();
+                        if (i.isKind(SyntaxKind.ArrayLiteralExpression)) {
+                            const ale = i.asKind(SyntaxKind.ArrayLiteralExpression);
+                            routeDef.hasChildren = true;
+                            extractRoutesChildren(ale, routeEntry, routeDef);
+                        }
+                    }
+                }
+            });
+            if (routeDef.path !== undefined) {
+                routeEntry.routes.push(routeDef);
+            }
+        }
+    });
+}
+function extractCanActivate(pa, routeDef) {
+    const i = pa.getInitializer();
+    if (i.isKind(SyntaxKind.ArrayLiteralExpression)) {
+        const ale = i.asKind(SyntaxKind.ArrayLiteralExpression);
+        ale.getElements().forEach(e => {
+            if (e.isKind(SyntaxKind.Identifier)) {
+                routeDef.canActivate.push(e.getText());
+            }
+        });
+    }
+}
+function extractLoadComponent(pai, routeDef) {
+    //console.log(pa.getName(), pai.asKind(SyntaxKind.ArrowFunction).getText());
+    if (pai.asKind(SyntaxKind.ArrowFunction).getBody().isKind(SyntaxKind.CallExpression)) {
+        const ce = pai.asKind(SyntaxKind.ArrowFunction).getBody().asKind(SyntaxKind.CallExpression);
+        if (ce.getExpression().isKind(SyntaxKind.PropertyAccessExpression)) {
+            const cepae = ce.getExpression().asKind(SyntaxKind.PropertyAccessExpression);
+            //console.log(cepae.getText());
+            const imp = cepae.getFirstDescendantByKind(SyntaxKind.ImportKeyword);
+            // console.log(imp.getText());
+            const args = imp.getParent().getArguments();
+            // console.log((args as StringLiteral[])[0].getText());
+            routeDef.importComponent = args[0].getText().replace(/[\"]/g, '');
+        }
+    }
+}
+function extractRouteProperties(pa, pai, routeDef) {
+    //console.log(pa.getName(), pai.asKind(SyntaxKind.StringLiteral).getText());
+    switch (pa.getName()) {
+        case 'path':
+            routeDef.path = pai.asKind(SyntaxKind.StringLiteral).getText().replace(/[\"]/g, '');
+            break;
+        case 'redirectTo':
+            routeDef.redirectTo = pai.asKind(SyntaxKind.StringLiteral).getText().replace(/[\"]/g, '');
+            break;
+        case 'pathMatch':
+            routeDef.pathMatch = pai.asKind(SyntaxKind.StringLiteral).getText().replace(/[\"]/g, '');
+            break;
+        default:
+            break;
+    }
+}
+function writeMermaidEnd(filePath) {
+    fs.appendFileSync(filePath, "```\r\n");
+}
+function writeMermaidStart(filePath) {
+    fs.appendFileSync(filePath, "```mermaid\r\n");
+    fs.appendFileSync(filePath, "graph BT;\r\n");
+}
+function deleteFileIfExists(filePath) {
+    if (fs.existsSync(filePath)) {
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.log(err);
+            }
+        });
+    }
+}
+function writeMermaidComponentsToAppOutlet(outlets, routes, filePath) {
+    const indexOfRootOutlet = outlets.indexOf('app');
+    routes.forEach(r => {
+        let componentIndex = 0;
+        const mainOutletComponents = r.routes.filter(x => !x.hasChildren && x.importComponent);
+        mainOutletComponents.forEach(c => {
+            const componentParts = c.importComponent.replace(".component", '').split(/[./]/);
+            const component = componentParts[componentParts.length - 1];
+            fs.appendFileSync(filePath, `  c${componentIndex}[${component}]-->|${c.path}|o${indexOfRootOutlet}\r\n`);
+            componentIndex++;
+        });
+    });
+}
+function collectRoutesWithChildrenRecusrive(routes, routesWithChildren) {
+    routes.forEach(r => {
+        if (r.hasChildren) {
+            routesWithChildren.push(r);
+            collectRoutesWithChildrenRecusrive(r.children, routesWithChildren);
+        }
+    });
+}
+function getIndexOfOutlet(outlets, importComponent) {
+    const name = getCompomentNameFromImportComponent(importComponent);
+    const found = outlets.find(x => x.includes(name));
+    return outlets.indexOf(found);
+}
+function getCompomentNameFromImportComponent(importComponent) {
+    const componentParts = importComponent.replace(".component", '').split(/[./]/);
+    const component = componentParts[componentParts.length - 1];
+    return component;
+}
+function writeMermaidComponentsRoutedToOutlets(outlets, routes, filePath) {
+    // find all routes with children
+    const routesWithChildren = [];
+    routes.forEach(r => {
+        collectRoutesWithChildrenRecusrive(r.routes, routesWithChildren);
+    });
+    //console.log(routesWithChildren);
+    let componentIndex = 0;
+    routesWithChildren.forEach(rwc => {
+        //console.log(rwc.path, rwc.importComponent);
+        if (rwc.importComponent != undefined) {
+            const indexOfRootOutlet = getIndexOfOutlet(outlets, rwc.importComponent);
+            rwc.children.forEach(c => {
+                if (c.importComponent != undefined) {
+                    const component = getCompomentNameFromImportComponent(c.importComponent);
+                    fs.appendFileSync(filePath, `  x${componentIndex}[${component}]-->|${c.path}|o${indexOfRootOutlet}\r\n`);
+                    componentIndex++;
+                }
+                else {
+                    // Ignore redirects typically
+                    //console.log(c);
+                }
+            });
+        }
+        else {
+            console.log('hun?', rwc);
+        }
+    });
+}
+const generateMermaid = () => __awaiter(void 0, void 0, void 0, function* () {
+    const outlets = JSON.parse(yield readFile("router-outlets.json", "utf8"));
+    const routes = JSON.parse(yield readFile("routes.json", "utf8"));
+    try {
+        const filePath = "app.md";
+        deleteFileIfExists(filePath);
+        writeMermaidStart(filePath);
+        writeMermaidOutlets(outlets, filePath);
+        writeMermaidComponentsToAppOutlet(outlets, routes, filePath);
+        writeMermaidComponentsRoutedToOutlets(outlets, routes, filePath);
+        writeMermaidEnd(filePath);
+    }
+    catch (error) {
+        console.error("Error writing mermaid file:", error);
+    }
+    console.log('done');
+});
+extractAll("C:/projects/here/here-platform-client/src/app/");
+generateMermaid();
+//extractRoutesFromTypeScriptFile("C:/projects/here/here-platform-client/src/app/routes.ts");
+//extractRoutesFromTypeScriptFile("C:/projects/here/here-platform-client/src/app/child-routes.ts");
 //# sourceMappingURL=index.js.map

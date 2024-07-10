@@ -1,0 +1,983 @@
+[
+  {
+    "name": "BASE_ROUTES",
+    "routes": [
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "login",
+        "importComponent": "./auth/login/login.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "plans",
+        "importComponent": "./features/subscription-plans/subscription-plans.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "signup/:plan_id",
+        "importComponent": "./auth/signup/signup.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "signout",
+        "importComponent": "./auth/signout/signout.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "after-signup",
+        "importComponent": "./auth/after-signup/after-signup.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "signup-callback",
+        "importComponent": "./auth/signup-callback/signup-callback.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "reset-password",
+        "importComponent": "./auth/reset-password/reset-password.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "invited",
+        "importComponent": "./auth/invited/invited.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [
+          "CanActivateAuthenticated"
+        ],
+        "path": "change-password",
+        "importComponent": "./auth/change-password/change-password.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "routes-tree",
+        "importComponent": "./admin/extract-live-routes/extract-live-routes.component"
+      },
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "**",
+        "importComponent": "./features/not-found/not-found.component"
+      }
+    ]
+  },
+  {
+    "name": "CHILD_ROUTES",
+    "routes": [
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "",
+        "redirectTo": "/dashboard",
+        "pathMatch": "full"
+      },
+      {
+        "hasChildren": true,
+        "children": [
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "",
+            "redirectTo": "overview",
+            "pathMatch": "full"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "overview",
+            "importComponent": "./features/child-dashboard/child-dashboard.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "children",
+            "importComponent": "./features/child-list/child-list.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "activities",
+            "importComponent": "./features/activities/activities.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "activity-player/:id",
+            "importComponent": "./features/activities/activity-player/activity-player.component"
+          },
+          {
+            "hasChildren": true,
+            "children": [
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "",
+                "redirectTo": "general",
+                "pathMatch": "full"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "general",
+                "importComponent": "./features/settings-general/settings-general.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "hub",
+                "importComponent": "./features/settings-hub/settings-hub.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "favorites",
+                "importComponent": "./features/settings-favorites/settings-favorites.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "notifications",
+                "importComponent": "./features/settings-notifications/settings-notifications.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "feedback",
+                "importComponent": "./features/settings-feedback/settings-feedback.component"
+              }
+            ],
+            "canActivate": [],
+            "path": "settings",
+            "importComponent": "./features/settings/settings.component"
+          }
+        ],
+        "canActivate": [
+          "CanActivateAuthenticated"
+        ],
+        "path": "dashboard",
+        "importComponent": "./shell/layout/layout.component"
+      }
+    ]
+  },
+  {
+    "name": "PROVIDER_ROUTES",
+    "routes": [
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "",
+        "redirectTo": "/dashboard",
+        "pathMatch": "full"
+      },
+      {
+        "hasChildren": true,
+        "children": [
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "",
+            "redirectTo": "overview",
+            "pathMatch": "full"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "overview",
+            "importComponent": "./features/organization-dashboard/organization-dashboard.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "children",
+            "importComponent": "./features/child-list/child-list.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "activities",
+            "importComponent": "./features/activities/activities.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "activity-player/:id",
+            "importComponent": "./features/activities/activity-player/activity-player.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [
+              "CanActivateAuthenticated"
+            ],
+            "path": "checkout",
+            "importComponent": "./features/checkout/checkout.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [
+              "CanActivateAuthenticated"
+            ],
+            "path": "checkout-success",
+            "importComponent": "./features/checkout-success/checkout-success.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [
+              "CanActivateAuthenticated"
+            ],
+            "path": "checkout-cancelled",
+            "importComponent": "./features/checkout-cancelled/checkout-cancelled.component"
+          },
+          {
+            "hasChildren": true,
+            "children": [
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "",
+                "redirectTo": "general",
+                "pathMatch": "full"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "general",
+                "importComponent": "./features/settings-general/settings-general.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "hub",
+                "importComponent": "./features/settings-hub/settings-hub.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "favorites",
+                "importComponent": "./features/settings-favorites/settings-favorites.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "notifications",
+                "importComponent": "./features/settings-notifications/settings-notifications.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "feedback",
+                "importComponent": "./features/settings-feedback/settings-feedback.component"
+              }
+            ],
+            "canActivate": [],
+            "path": "settings",
+            "importComponent": "./features/settings/settings.component"
+          }
+        ],
+        "canActivate": [
+          "CanActivateAuthenticated"
+        ],
+        "path": "dashboard",
+        "importComponent": "./shell/layout/layout.component"
+      }
+    ]
+  },
+  {
+    "name": "HERE_ADMIN_ROUTES",
+    "routes": [
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "",
+        "redirectTo": "/dashboard",
+        "pathMatch": "full"
+      },
+      {
+        "hasChildren": true,
+        "children": [
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "",
+            "redirectTo": "overview",
+            "pathMatch": "full"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "overview",
+            "importComponent": "./admin/here-admin-dashboard/here-admin-dashboard.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "users/:org_id",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "users/:org_id/:position",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "users/:position",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "all-users",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "all-children/:position",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "children/:org_id/:position",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "children/:position",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "providers/:org_id",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "all-providers/:position",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "providers/:org_id/:position",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "providers/:org_id",
+            "importComponent": "./admin/organization-users/organization-users.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [
+              "CanActivateAuthenticated"
+            ],
+            "path": "checkout",
+            "importComponent": "./features/checkout/checkout.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [
+              "CanActivateAuthenticated"
+            ],
+            "path": "checkout-success",
+            "importComponent": "./features/checkout-success/checkout-success.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [
+              "CanActivateAuthenticated"
+            ],
+            "path": "checkout-cancelled",
+            "importComponent": "./features/checkout-cancelled/checkout-cancelled.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "csv-invites",
+            "importComponent": "./features/invite-from-csv/invite-from-csv.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "invite",
+            "importComponent": "./auth/send-invite/send-invite.component"
+          },
+          {
+            "hasChildren": true,
+            "children": [
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "requests",
+                "importComponent": "./admin/upload_requests/upload-requests/upload-requests.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "requests-timeline",
+                "importComponent": "./admin/upload_requests/upload-request-timeline/upload-request-timeline.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "requests-response-histogram",
+                "importComponent": "./admin/upload_requests/request-response-histogram/request-response-histogram.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "svg-statistics/:response_id",
+                "importComponent": "./admin/upload_requests/upload-request-statistics/upload-request-statistics.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "responses",
+                "importComponent": "./admin/upload_responses/upload-responses/upload-responses.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "activities",
+                "importComponent": "./admin/activity/activity-table/activity-table.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "activity/:id",
+                "importComponent": "./features/activity/activity.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "delete-upload-request/:id",
+                "importComponent": "./admin/delete-upload-request/delete-upload-request.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "delete-activity/:id",
+                "importComponent": "./admin/activity/delete-activity/delete-activity.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "packs",
+                "importComponent": "./admin/pack/activity-packs-table/activity-packs-table.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "create-activity",
+                "importComponent": "./admin/activity/create-activity/create-activity.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "edit-activity/:id",
+                "importComponent": "./admin/activity/edit-activity/edit-activity.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "create-activity-pack",
+                "importComponent": "./admin/pack/create-activity-pack/create-activity-pack.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "emotions-matrix",
+                "importComponent": "./admin/activity/activity-emotion-matrix/activity-emotion-matrix.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "edit-emotions",
+                "importComponent": "./admin/emotions-edit/emotions-edit.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "upload-icons",
+                "importComponent": "./shared/upload-icons/upload-icons.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "plan-editor",
+                "importComponent": "./admin/plan-editor/plan-editor.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "plan-matrix",
+                "importComponent": "./admin/plan-matrix/plan-matrix.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "stripe-products",
+                "importComponent": "./admin/stripe-products/stripe-products.component"
+              },
+              {
+                "hasChildren": true,
+                "children": [
+                  {
+                    "hasChildren": false,
+                    "children": [],
+                    "canActivate": [],
+                    "path": "table-edit/:table/:title",
+                    "importComponent": "./shared/reusable-table/reusable-table.component"
+                  }
+                ],
+                "canActivate": [],
+                "path": "lookup-tables",
+                "importComponent": "./admin/lookup-tables/lookup-tables.component"
+              },
+              {
+                "hasChildren": true,
+                "children": [
+                  {
+                    "hasChildren": false,
+                    "children": [],
+                    "canActivate": [],
+                    "path": "",
+                    "redirectTo": "media-sizes",
+                    "pathMatch": "full"
+                  },
+                  {
+                    "hasChildren": false,
+                    "children": [],
+                    "canActivate": [],
+                    "path": "2d",
+                    "importComponent": "./admin/visualizations/graph-two-d/graph-two-d.component"
+                  },
+                  {
+                    "hasChildren": false,
+                    "children": [],
+                    "canActivate": [],
+                    "path": "3d",
+                    "importComponent": "./admin/visualizations/graph-three-d/graph-three-d.component"
+                  },
+                  {
+                    "hasChildren": false,
+                    "children": [],
+                    "canActivate": [],
+                    "path": "activities-by-user",
+                    "importComponent": "./admin/visualizations/activities-by-user/activities-by-user.component"
+                  },
+                  {
+                    "hasChildren": false,
+                    "children": [],
+                    "canActivate": [],
+                    "path": "activities-by-language",
+                    "importComponent": "./admin/visualizations/activities-by-language/activities-by-language.component"
+                  },
+                  {
+                    "hasChildren": false,
+                    "children": [],
+                    "canActivate": [],
+                    "path": "media-sizes",
+                    "importComponent": "./admin/visualizations/media-sizes/media-sizes.component"
+                  }
+                ],
+                "canActivate": [],
+                "path": "visualizations",
+                "importComponent": "./admin/visualizations/visualizations/visualizations.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "responses-carousel",
+                "importComponent": "./admin/upload_responses/upload-responses-carousel/upload-responses-carousel.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "responses-galleria",
+                "importComponent": "./admin/upload_responses/upload-responses-galleria/upload-responses-galleria.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "optimize-svg/:id",
+                "importComponent": "./admin/optimize-svg/optimize-svg.component"
+              }
+            ],
+            "canActivate": [],
+            "path": "admin-settings",
+            "importComponent": "./admin/admin-settings/admin-settings.component"
+          },
+          {
+            "hasChildren": true,
+            "children": [
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "",
+                "redirectTo": "general",
+                "pathMatch": "full"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "general",
+                "importComponent": "./features/settings-general/settings-general.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "hub",
+                "importComponent": "./features/settings-hub/settings-hub.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "favorites",
+                "importComponent": "./features/settings-favorites/settings-favorites.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "notifications",
+                "importComponent": "./features/settings-notifications/settings-notifications.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "feedback",
+                "importComponent": "./features/settings-feedback/settings-feedback.component"
+              }
+            ],
+            "canActivate": [],
+            "path": "settings",
+            "importComponent": "./features/settings/settings.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "activities",
+            "importComponent": "./features/activities/activities.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "activity-player/:id",
+            "importComponent": "./features/activities/activity-player/activity-player.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "all-organizations",
+            "importComponent": "./admin/organizations/organizations.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "organization/:id",
+            "importComponent": "./admin/organization/organization.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "provider/:id",
+            "importComponent": "./admin/provider/provider.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "resources",
+            "importComponent": "./features/resources/resources.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "reports",
+            "importComponent": "./admin/reports/reports.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "invite",
+            "importComponent": "./auth/send-invite/send-invite.component"
+          }
+        ],
+        "canActivate": [
+          "CanActivateAuthenticated"
+        ],
+        "path": "dashboard",
+        "importComponent": "./shell/layout/layout.component"
+      }
+    ]
+  },
+  {
+    "name": "ORG_ADMIN_ROUTES",
+    "routes": [
+      {
+        "hasChildren": false,
+        "children": [],
+        "canActivate": [],
+        "path": "",
+        "redirectTo": "/dashboard",
+        "pathMatch": "full"
+      },
+      {
+        "hasChildren": true,
+        "children": [
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "",
+            "redirectTo": "overview",
+            "pathMatch": "full"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "overview",
+            "importComponent": "./features/organization-dashboard/organization-dashboard.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "children",
+            "importComponent": "./features/child-list/child-list.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "csv-invites",
+            "importComponent": "./features/invite-from-csv/invite-from-csv.component"
+          },
+          {
+            "hasChildren": true,
+            "children": [
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "",
+                "redirectTo": "general",
+                "pathMatch": "full"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "general",
+                "importComponent": "./features/settings-general/settings-general.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "hub",
+                "importComponent": "./features/settings-hub/settings-hub.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "favorites",
+                "importComponent": "./features/settings-favorites/settings-favorites.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "notifications",
+                "importComponent": "./features/settings-notifications/settings-notifications.component"
+              },
+              {
+                "hasChildren": false,
+                "children": [],
+                "canActivate": [],
+                "path": "feedback",
+                "importComponent": "./features/settings-feedback/settings-feedback.component"
+              }
+            ],
+            "canActivate": [],
+            "path": "settings",
+            "importComponent": "./features/settings/settings.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "activities",
+            "importComponent": "./features/activities/activities.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "activity-player/:id",
+            "importComponent": "./features/activities/activity-player/activity-player.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "organizations",
+            "importComponent": "./admin/organizations/organizations.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "organization/:id",
+            "importComponent": "./admin/organization/organization.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "provider/:id",
+            "importComponent": "./admin/provider/provider.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "resources",
+            "importComponent": "./features/resources/resources.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "reports",
+            "importComponent": "./admin/reports/reports.component"
+          },
+          {
+            "hasChildren": false,
+            "children": [],
+            "canActivate": [],
+            "path": "invite",
+            "importComponent": "./auth/send-invite/send-invite.component"
+          }
+        ],
+        "canActivate": [
+          "CanActivateAuthenticated"
+        ],
+        "path": "dashboard",
+        "importComponent": "./shell/layout/layout.component"
+      }
+    ]
+  }
+]
